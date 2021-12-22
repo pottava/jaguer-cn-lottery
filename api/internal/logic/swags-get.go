@@ -1,13 +1,12 @@
 package logic
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
 
-	gc "github.com/pottava/jaguer-cn-lottery/api/internal/google-cloud"
+	googlecloud "github.com/pottava/jaguer-cn-lottery/api/internal/google-cloud"
 	"github.com/pottava/jaguer-cn-lottery/api/internal/lib"
 	"github.com/pottava/jaguer-cn-lottery/api/internal/logs"
 )
@@ -19,8 +18,8 @@ func GetSwags(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(status), status)
 		return
 	}
-	swags, err := gc.ListSwags(
-		context.Background(),
+	swags, err := googlecloud.ListSwags(
+		r.Context(),
 		lib.Config.ProjectID,
 		lib.Config.SpannerInstance,
 		lib.Config.SpannerDatabase)

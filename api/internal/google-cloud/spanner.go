@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"cloud.google.com/go/spanner"
+	"github.com/pottava/jaguer-cn-lottery/api/internal/lib"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
@@ -19,8 +20,8 @@ type Swag struct {
 // ListSwags returns SWAG information
 func ListSwags(ctx context.Context, projectID, spannerInstance, spannerDatabase string) ([]*Swag, error) {
 	opts := []option.ClientOption{}
-	if _, err := os.Stat("creds.json"); err == nil {
-		opts = append(opts, option.WithCredentialsFile("creds.json"))
+	if _, err := os.Stat(lib.Config.GcloudCreds); err == nil {
+		opts = append(opts, option.WithCredentialsFile(lib.Config.GcloudCreds))
 	}
 	database := fmt.Sprintf("projects/%s/instances/%s/databases/%s",
 		projectID, spannerInstance, spannerDatabase)

@@ -16,9 +16,12 @@ var (
 
 // Config can be set via environment variables
 type config struct {
+	GcloudCreds     string `envconfig:"GCLOUD_CREDENTIALS" default:"creds.json"`
 	ProjectID       string `envconfig:"PROJECT_ID"`
 	SpannerInstance string `envconfig:"SPANNER_INSTANCE" default:"jaguer-cn-lottery"`
 	SpannerDatabase string `envconfig:"SPANNER_DATABASE" default:"app"`
+	SheetID         string `envconfig:"SPREAD_SHEET_ID"`
+	SheetTabName    string `envconfig:"SPREAD_SHEET_TAB_NAME" default:"swags"`
 	Version         string `envconfig:"VERSION" default:"dev"`
 	Port            string `envconfig:"PORT" default:"8080"`
 	LogLevel        string `envconfig:"LOG_LEVEL" default:"debug"`

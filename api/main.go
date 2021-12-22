@@ -14,6 +14,9 @@ func main() {
 	if len(lib.Config.ProjectID) == 0 {
 		logs.Fatal("Missing required environment variable: PROJECT_ID", nil, nil)
 	}
+	if len(lib.Config.SheetID) == 0 {
+		logs.Fatal("Missing required environment variable: SPREAD_SHEET_ID", nil, nil)
+	}
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
@@ -21,6 +24,7 @@ func main() {
 		fmt.Fprintln(w, lib.Config.Version)
 	})
 	http.HandleFunc("/swags", logic.GetSwags)
+	http.HandleFunc("/requests", logic.PostRequests)
 
 	logs.Info("Server started", nil, &logs.Map{"Port": lib.Config.Port})
 	log.Fatal(http.ListenAndServe(":"+lib.Config.Port, nil))
