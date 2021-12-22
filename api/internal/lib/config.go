@@ -32,7 +32,7 @@ var Config *config
 
 func init() {
 	cfg := &config{}
-	envconfig.MustProcess("lottery", cfg)
+	envconfig.MustProcess("lottery-api", cfg)
 	if len(version) > 0 && len(commit) > 0 && len(date) > 0 {
 		cfg.Version = fmt.Sprintf("%s-%s (built at %s)", version, commit, date)
 	}

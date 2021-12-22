@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -23,7 +24,13 @@ func PostRequests(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(status), status)
 		return
 	}
-	if r.Header.Get("Content-Type") != "application/json" {
+	userID := retrieveUserID(r.Header.Get("Authorization"))
+	if userID == "" {
+		status := http.StatusUnauthorized
+		http.Error(w, http.StatusText(status), status)
+		return
+	}
+	if !strings.Contains(r.Header.Get("Content-Type"), "application/json") {
 		status := http.StatusBadRequest
 		http.Error(w, http.StatusText(status), status)
 		return
@@ -54,6 +61,7 @@ func PostRequests(w http.ResponseWriter, r *http.Request) {
 	}
 	logs.Info("access", nil, &logs.Map{"method": r.Method, "path": r.URL.Path})
 	w.WriteHeader(http.StatusCreated)
+	fmt.Fprintln(w, *swagName)
 }
 
 // 本アプリケーションはサンプルであり "在庫を減らす処理がない" ため、ロックは実装していません
